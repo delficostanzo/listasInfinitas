@@ -28,7 +28,8 @@ data Monstruo = Monstruo {
 type Arma = (String, Int)
 
 mrNorris = Monstruo "Mr Norris" 100 (repeat "Espada de oro")
-ed = Monstruo "Ed" 70 ["Espada", "pistola"]
+mrFarrel = Monstruo "Mr Farrel" 200 (repeat "Computadora")
+ed = Monstruo "Ed" 70 ["Espada", "Pistola"]
 voldemort = Monstruo "Lord Voldemort" 30 ["Varita de Sauco", "Serpiente"]
 
 -- Si yo corro por consola a mrNorris como use repeat en su lista de armas, va a tener infinitas espadas de oro.
@@ -44,5 +45,32 @@ esPoderoso monstruo | fuerza monstruo > 50 = monstruo {armas = (map (++ " podero
 -- > esPoderoso ed      
 -- > Monstruo {nombre = "Ed", fuerza = 70, armas = ["Espada poderoso","pistola poderoso"]}
 
+-- Y si utilizo la funcion es poderoso en voldemort, te devuelve voldemort sin cambios ya que no cumple con la condicion de que su fuerza es mayor a 50:
+-- > esPoderoso voldemort
+-- > Monstruo {nombre = "Lord Voldemort", fuerza = 30, armas = ["Varita de Sauco","Serpiente"]}
+
 -- Pero en el caso de MrNorris, como se cumple la condicion que tiene fuerza mayor a 50, debe agregarle a todas las armas la palabra "poderoso" y para eso tiene que recorrer toda la lista por lo que se genera un bucle infinito.
 -- Ademas, esPoderoso es de orden superior porque utiliza una funcion de orden superior predifinida llamada "map".
+
+-- Otro ejemplo podria ser una funcion que devuelva la primer arma de las listas de armas:
+primerArma :: Monstruo -> String
+primerArma = head.armas 
+
+-- En este caso, si lo aplicamos con Mr Norris, como solo pide el primer elemento de la lista esta funcion romperia ese bucle infinito que se formaba con la funcion esPoderoso. Este puede ser un ejemplo de lazy evaluation, ya que en esta funcion los parametros se evaluan solo si son necesarios. Al preguntar si esta palabra se encuentra en la lista, al estar de comienzo a fin, con tan solo encontrarla una vez ya
+-- decide que la decision sin evaluar el resto de la lista
+-- > primerElemento mrNorris
+-- > "Espada de oro"
+
+-- > primerElemento voldemort
+-- > "Varita de Sauco"
+
+tieneComputadora :: Monstruo -> Bool
+tieneComputadora monstruito = elem "Computadora" (armas monstruito)
+
+-- Y con la funcion tieneComputadora podria ser otro ejemplo de lazy evaluation ya que, si preguntamos con mrFarrel, como el primer elemento ya cumple no es necesario que evalue el resto de la lista.
+-- > tieneComputadora mrFarrel
+-- > True
+
+-- Pero, si lo preguntamos con mrNorris, al ser una lista infinita y no tener una Computadora como arma, el recorrido de la lista no termina nunca y por eso no va a devolver nunca una respuesta (se genera un bucle infinito)
+-- > tieneComputadora mrNorris
+-- > 
