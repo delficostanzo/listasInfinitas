@@ -64,8 +64,9 @@ primerArma :: Monstruo -> String
 primerArma = head.armas 
 
 -- En este caso, si lo aplicamos con Mr Norris, como solo pide el primer elemento de la lista esta funcion romperia ese bucle
--- infinito que se formaba con la funcion esPoderoso. Este puede ser un ejemplo de lazy evaluation, ya que en esta funcion los parametros se evaluan solo si son necesarios. Al preguntar si esta palabra se encuentra en la lista, al estar de comienzo a fin, con tan solo encontrarla una vez ya
--- decide que la decision sin evaluar el resto de la lista
+-- infinito que se formaba con la funcion esPoderoso. Este puede ser un ejemplo de lazy evaluation, ya que en esta funcion los 
+-- parametros se evaluan solo si son necesarios. Al preguntar si esta palabra se encuentra en la lista, al estar de comienzo a fin, 
+-- con tan solo encontrarla una vez ya decide que la decision sin evaluar el resto de la lista
 -- > primerElemento mrNorris
 -- > "Espada de oro"
 
